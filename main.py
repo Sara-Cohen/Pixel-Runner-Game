@@ -12,8 +12,6 @@ test_surface.fill('Blue')
 
 test_surface2 = pygame.Surface((10, 20))
 test_surface2.fill('Green')
-
-
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
