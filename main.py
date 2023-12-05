@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.player_walks[self.player_index]
         self.rect = self.image.get_rect(midbottom=(200, 300))
         self.player_jump = pygame.image.load('graphics/Player/jump.png').convert_alpha()
-        self.jump_sound = pygame.mixer.Sound('audio/jump.mp3')
+        self.jump_sound = pygame.mixer.Sound('audio/jump_sound.mp3')
         self.jump_sound.set_volume(0.5)
 
     def player_input(self):
@@ -80,7 +80,7 @@ class Obstacle(pygame.sprite.Sprite):
 
 
 def set_size_font(size):
-    return pygame.font.Font('font/Pixeltype.ttf', size)
+    return pygame.font.Font('font/pixeltype.ttf', size)
 
 
 def display_open_close_screen(final_score):
@@ -130,9 +130,9 @@ start_time = 0
 score = 0
 
 """define background object game"""
-sky_surface = pygame.image.load('graphics/Sky.png').convert()
+sky_surface = pygame.image.load('graphics/sky.png').convert()
 ground_surface = pygame.image.load('graphics/ground.png').convert()
-bg_music = pygame.mixer.Sound('audio/music.wav')
+bg_music = pygame.mixer.Sound('audio/background_music.wav')
 bg_music.play()
 
 """define timer """
