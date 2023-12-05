@@ -4,6 +4,43 @@ from sys import exit
 import pygame
 
 
+class Player(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        player_walk_1 = pygame.image.load('graphics/Player/player_walk_1.png').convert_alpha()
+        player_walk_2 = pygame.image.load('graphics/Player/player_walk_2.png').convert_alpha()
+        self.player_walk = [player_walk_1, player_walk_2]
+        self.player_index = 0
+        self.player_gravity = 0
+
+        self.image = player_walk[player_index]
+        self.rect = self.image.get_rect(midbottom=(200, 300))
+        self.player_jump = pygame.image.load('graphics/Player/jump.png').convert_alpha()
+
+    def player_input(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE] and self.rect.bottom >= 300:
+            self.player_gravity = -20
+
+    def apply_gravity(self):
+        self.player_gravity += 1
+        self.rect.y += self.player_gravity
+        if self.rect.bottom >= 300:
+            self.rect.bottom = 300
+    def animation(self):
+        global player_surf, player_index
+        if self.rect.bottom < 300:
+            self.image = self.player_jump
+        else:
+            self.player_index += 0.1
+            if self.player_index >= 2:
+                self.player_index = 0
+            self.image = self.player_walk[int(self.player_index)]
+    def update(self):
+        self.player_input()
+        self.apply_gravity()
+        self.animation()
+
 def set_size_font(size):
     return pygame.font.Font('font/Pixeltype.ttf', size)
 
@@ -126,7 +163,8 @@ pygame.time.set_timer(snail_timer, 500)
 
 fly_timer = pygame.USEREVENT + 3
 pygame.time.set_timer(fly_timer, 100)
-
+player=pygame.sprite.GroupSingle()
+player.add(Player())
 while True:
 
     for event in pygame.event.get():
@@ -186,6 +224,8 @@ while True:
         player_animation()
         screen.blit(player_surf, player_rect)
 
+        player.draw(screen)
+        player.update()
         "obstacle:"
         obstacle_rect_list = obstacle_movement(obstacle_rect_list)
         if collisions(player_rect, obstacle_rect_list):
